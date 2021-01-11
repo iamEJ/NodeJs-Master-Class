@@ -1,6 +1,7 @@
 import { open, writeFile, close, readFile, ftruncate, unlink } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import helpers from "./helpers.js";
 
 //Container
 const lib = {};
@@ -44,7 +45,12 @@ lib.create = (dir, file, data, callback) => {
 // Read data from the file
 lib.read = (dir, file, callback) => {
   readFile(lib.baseDir + dir + "/" + file + ".json", "utf8", (err, data) => {
-    callback(err, data);
+    if (!err && data) {
+      const parsedData = helpers.parseJsonToObject(data);
+      callback(false, parsedData);
+    } else {
+      callback(err, data);
+    }
   });
 };
 

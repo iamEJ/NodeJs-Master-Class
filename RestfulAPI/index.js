@@ -5,6 +5,8 @@ import enviromentToExport from "./config.js";
 import https from "https";
 import fs from "fs";
 import _data from "./lib/data.js";
+import handlers from "./lib/handlers.js";
+import helpers from "./lib/helpers.js";
 
 //Testing
 // _data.create("test", "newFile", { new: "file" }, (err) => {
@@ -52,14 +54,16 @@ const unifiedServer = (req, res) => {
   const parseUrl = parse(req.url, true);
 
   //get path
-  const path = parseUrl.path;
+  const path = parseUrl.pathname;
   const trimedPath = path.replace(/^\/+|\/+$/g, "");
 
   //get http method
   const method = req.method.toLowerCase();
 
   // get query string as an object
-  const queryStringObject = parseUrl.query;
+  //const queryStringObject = parseUrl.query;
+  const queryString = JSON.stringify(parseUrl.query, null, 4);
+  const queryStringObject = JSON.parse(queryString);
 
   //request headers
   const headers = req.headers;
@@ -85,7 +89,7 @@ const unifiedServer = (req, res) => {
       queryStringObject: queryStringObject,
       method: method,
       headers: headers,
-      payload: buffer,
+      payload: helpers.parseJsonToObject(buffer),
     };
 
     //Route the request to the handler
@@ -115,21 +119,8 @@ const unifiedServer = (req, res) => {
   });
 };
 
-//Define a handler
-const handlers = {};
-
-//Sample handler
-handlers.ping = (data, callback) => {
-  callback(406, { name: "Sample Hander" });
-  //callback(200);
-};
-
-//Not found handler
-handlers.notFound = (data, callback) => {
-  callback(404);
-};
-
 //Define a request router
 const router = {
   ping: handlers.ping,
+  users: handlers.users,
 };
