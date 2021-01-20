@@ -1,0 +1,9 @@
+{
+  "id": "z21lx06p6g4je2188ms8",
+  "userPhone": "9874563210",
+  "protocol": "http",
+  "url": "google.com",
+  "method": "get",
+  "successCode": [200, 201],
+  "timeoutSeconds": 3
+}
