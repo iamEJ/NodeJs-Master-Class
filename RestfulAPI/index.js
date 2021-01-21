@@ -12,6 +12,10 @@ import helpers from "./lib/helpers.js";
 // _data.create("test", "newFile", { new: "file" }, (err) => {
 //   console.log("This is an error", err);
 // });
+//Test of sending sms
+// helpers.sendTwilioSMS("4158126541", "Hello!", (err) => {
+//   console.log("This is an error " + err);
+// });
 
 // HTTP server
 const httpServer = createServer((req, res) => {
